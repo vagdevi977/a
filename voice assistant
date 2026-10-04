@@ -1,0 +1,45 @@
+import speech_recognition as sr
+import pyttsx3
+
+# Initialize
+recognizer = sr.Recognizer()
+engine = pyttsx3.init()
+
+def speak(text):
+    print("Assistant:", text)
+    engine.say(text)
+    engine.runAndWait()
+
+def listen():
+    with sr.Microphone() as source:
+        print("Listening...")
+        audio = recognizer.listen(source)
+
+    try:
+        command = recognizer.recognize_google(audio)
+        print("You:", command)
+        return command.lower()
+    except:
+        speak("Sorry, I didn't understand.")
+        return ""
+
+speak("Hello! I am your voice assistant.")
+
+while True:
+    command = listen()
+
+    if "hello" in command:
+        speak("Hello! How can I help you?")
+
+    elif "your name" in command:
+        speak("I am your Python voice assistant.")
+
+    elif "how are you" in command:
+        speak("I am doing great!")
+
+    elif "bye" in command or "exit" in command:
+        speak("Goodbye! Have a nice day.")
+        break
+
+    else:
+        speak("Sorry, I don't know that command.")
